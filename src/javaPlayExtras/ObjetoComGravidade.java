@@ -9,6 +9,7 @@ public abstract class ObjetoComGravidade extends GameObject {
 
     protected int yVelocidade = 0;
     protected boolean estaNoChao = false;
+    protected boolean pulo = false;
 
     public void step(long timeEllapsed) {
         this.controlePulo();
@@ -47,5 +48,9 @@ public abstract class ObjetoComGravidade extends GameObject {
 
     public boolean estaSubindo() {
         return (this.yVelocidade > 0);
+    }
+    
+    public boolean estaPulando(){
+        return this.pulo;
     }
 }
