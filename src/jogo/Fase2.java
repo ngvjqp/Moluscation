@@ -94,7 +94,7 @@ public class Fase2 implements GameStateController {
 
             this.contGO++;
             if (contGO == 5){
-            AudioPlayer.play("resources/dor.wav", false);
+           
             }
             if (contGO >= 17) {
 

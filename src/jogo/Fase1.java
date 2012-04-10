@@ -22,20 +22,22 @@ public class Fase1 implements GameStateController {
     private int bombax;
     private int bombay;
     private Vida vida;
-private int contGO;
-            int controlePerdeVida;
+    private HUD hud;
+    private int contGO;
+    int controlePerdeVida;
+
     public Fase1() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
     }
 
     public void load() {
-this.contGO = 1;
+        this.contGO = 1;
         this.bombax = 20;
         this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
         this.vida = new Vida(100, 100);
-
+this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
@@ -49,19 +51,18 @@ this.contGO = 1;
     public void unload() {
     }
 
-
-
     public void step(long timeElapsed) {
         if (this.molusco.vida <= 0) {
             this.molusco.imgMorre();
             int controle = 1;
             controle = controle - 30;
-            this.molusco.setY(this.molusco.getY()+ controle);
-         
+            this.molusco.setY(this.molusco.getY() + controle);
+
             this.contGO++;
-            if (contGO >= 17){
-             JOptionPane.showMessageDialog(null, "Game Over.");
-             System.exit(0);}
+            if (contGO >= 17) {
+                JOptionPane.showMessageDialog(null, "Game Over.");
+                System.exit(0);
+            }
         }
 
         this.molusco.step(timeElapsed);
@@ -80,30 +81,30 @@ this.contGO = 1;
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
             //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
-GameEngine.getInstance().setStartingGameStateController(2);
+            GameEngine.getInstance().setStartingGameStateController(2);
         }
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-
+this.hud.cont--;
             this.controlePerdeVida = this.controlePerdeVida - 5;
-            this.molusco.setY(this.molusco.getY()+ controlePerdeVida);
-         
+            this.molusco.setY(this.molusco.getY() + controlePerdeVida);
+
             this.contGO++;
-            if (contGO >= 17){
+            if (contGO >= 17) {
                 this.contGO = 1;
-            this.molusco.perdeVida();
-            this.molusco.setX(100);
-            this.molusco.setY(100);
-            this.cenario.setInicio();
-        this.controlePerdeVida = 1;
-        this.molusco.alteraImagem(this.molusco.imgNormal);
+                this.molusco.perdeVida();
+                this.molusco.setX(100);
+                this.molusco.setY(100);
+                this.cenario.setInicio();
+                this.controlePerdeVida = 1;
+                this.molusco.alteraImagem(this.molusco.imgNormal);
             }
         }
 
 
-          if (this.molusco.temColisao(vida)) {
+        if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
             this.vida.setY(500000000);
 
@@ -149,8 +150,7 @@ GameEngine.getInstance().setStartingGameStateController(2);
             bombas.draw(g);
         }
         this.vida.draw(g);
-
-
+this.hud.draw(g);
     }
 
     public void stop() {

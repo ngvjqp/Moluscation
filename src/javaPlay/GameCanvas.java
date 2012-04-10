@@ -17,7 +17,7 @@ import javax.swing.JFrame;
  */
 public class GameCanvas extends JFrame
 {
-    private final int defaultScreenWidth = 1280;
+    private final int defaultScreenWidth = 800;
     private final int defaultScreenHeight = 600;
     private Graphics g;
     private BufferStrategy bf;
