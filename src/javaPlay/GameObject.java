@@ -74,7 +74,7 @@ public abstract class GameObject {
     }
 
     public Point getPontoMax(){
-        //O uso do -1 é para melhorar o cálculo da colisão
+        //O uso do -1 ï¿½ para melhorar o cï¿½lculo da colisï¿½o
         return new Point(this.getMaxX() - 1, this.getMaxY() - 1);
     }
 
@@ -87,6 +87,10 @@ public abstract class GameObject {
     }
 
     public boolean temColisao(ObjetoComGravidade obj) {
+        return this.getRetangulo().intersects(obj.getRetangulo());
+    }
+    
+    public boolean temColisao(GameObject obj){
         return this.getRetangulo().intersects(obj.getRetangulo());
     }
 }
