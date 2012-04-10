@@ -11,7 +11,7 @@ public class Main {
         
         //GameEngine.getInstance().setStartingGameStateController( 1 );
         
-        GameEngine.getInstance().setFramesPerSecond( 30 );
+        GameEngine.getInstance().setFramesPerSecond( 10 );
         GameEngine.getInstance().run();
     }
 }
