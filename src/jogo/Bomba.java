@@ -46,6 +46,6 @@ public class Bomba extends ObjetoComGravidade {
     }
 
     public void draw(Graphics g) {
-        this.imgAtual.drawFlipped(g, this.x, this.y);
+        this.imgAtual.draw(g, this.x, this.y);
     }
 }

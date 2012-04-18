@@ -21,6 +21,7 @@ public class Fase1 implements GameStateController {
     private long contadorTempo;
     private int bombax;
     private int bombay;
+    private Vida vida;
 
     public Fase1() {
         this.molusco = new Molusco();
@@ -31,7 +32,7 @@ public class Fase1 implements GameStateController {
         this.bombax = 20;
         this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-
+        this.vida = new Vida(100,100);
 
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
@@ -72,21 +73,24 @@ public class Fase1 implements GameStateController {
 
 
         //CASO encontre a TILE com o antídoto
-        if (this.cenario.temColisaoComTile(molusco, 5)) {
+        if (this.cenario.temColisaoComTile(molusco, 4)) {
             //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
             JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
             System.exit(0);
         }
 
-        if (this.cenario.temColisaoComTile(molusco, 4)) {
-            this.molusco.vida += 1;
-        }
-
+        
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.vida = 0;
         }
 
+
+        if (this.molusco.temColisao(vida)) {
+            this.molusco.ganhaVida();
+
+        }
         this.cenario.step(timeElapsed);
+        this.vida.step(timeElapsed);
 
         contadorTempo += timeElapsed;
         if (contadorTempo > 3000) { //tres segundos
@@ -110,6 +114,8 @@ public class Fase1 implements GameStateController {
             this.cenario.moveCenarioTras(-20);
             this.bombax += 20;
         }
+
+
     }
 
     public void draw(Graphics g) {
@@ -122,6 +128,7 @@ public class Fase1 implements GameStateController {
         for (Bomba bombas : this.bombas) {
             bombas.draw(g);
         }
+        this.vida.draw(g);
 
 
     }

@@ -141,6 +141,10 @@ public class Molusco extends ObjetoComGravidade{
         public void perdeVida(){
         this.vida -= 1;
     }
+        
+        public void ganhaVida(){
+            this.vida += 1;
+        }
     
     
 public Rectangle getRectangle() {
