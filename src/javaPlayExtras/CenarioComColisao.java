@@ -14,6 +14,7 @@ public class CenarioComColisao {
 
     private Scene scene;
     private ArrayList<ObjetoComGravidade> objetos;
+    private int x;
 
     public CenarioComColisao(String sceneFile) throws FileNotFoundException {
         this.scene = new Scene();
@@ -42,6 +43,7 @@ public class CenarioComColisao {
     }
 
     public void draw(Graphics g) {
+         this.scene.setDrawStartPos(this.x, 0);
         this.scene.draw(g);     
         //this.drawDebug(g);
     }
@@ -76,7 +78,7 @@ public class CenarioComColisao {
     }
 
     private void verificaColisao(ObjetoComGravidade obj) {
-        //Considera que não existe bloco abaixo
+        //Considera que nï¿½o existe bloco abaixo
         obj.saiuChao();
 
         ArrayList<TileInfo> tiles = this.scene.getTilesFromRect(obj.getPontoMin(), obj.getPontoMax());
@@ -92,11 +94,11 @@ public class CenarioComColisao {
 
     private DirecaoColisao pegaDirecaoColisao(ObjetoComGravidade obj, TileInfo tile) {
         /**
-         * Para calcular  de ond evem a direção
-         * verifica-se quais o ponto do Tile mais próximo do ponto central do objeto.
+         * Para calcular  de ond evem a direï¿½ï¿½o
+         * verifica-se quais o ponto do Tile mais prï¿½ximo do ponto central do objeto.
          */
 
-        //Considera inicialmente que a colisão foi de cima para baixo
+        //Considera inicialmente que a colisï¿½o foi de cima para baixo
         DirecaoColisao direcao = DirecaoColisao.CIMA_PARA_BAIXO;
         double distancia = this.calculaDistancia(tile.getTopPoint(), obj.getPontoCentral());
         double distanciaTemp;
@@ -120,7 +122,7 @@ public class CenarioComColisao {
         }
 
         //Caso especial quando o objeto
-        //por causa da força da gravidade
+        //por causa da forï¿½a da gravidade
         //atravessa todo o tile.
         if (obj.getY() < tile.getCentralY() && obj.getMaxY() > tile.max.y && obj.getPontoCentral().x > tile.min.x && obj.getPontoCentral().x < tile.max.x && !obj.estaSubindo()) {
             direcao = DirecaoColisao.CIMA_PARA_BAIXO;
@@ -156,4 +158,9 @@ public class CenarioComColisao {
                 break;
         }
     }
+
+      public void moveCenarioTras(int distance){                
+        this.x -= distance;
+    }    
+
 }
