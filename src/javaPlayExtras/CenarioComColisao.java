@@ -162,5 +162,7 @@ public class CenarioComColisao {
       public void moveCenarioTras(int distance){                
         this.x -= distance;
     }    
-
+public void setInicio(){
+this.x = 1;
+}
 }

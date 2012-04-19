@@ -23,7 +23,9 @@ public class Fase1 implements GameStateController {
     private int bombay;
     private Vida vida;
 private int contGO;
+            int controlePerdeVida;
     public Fase1() {
+        controlePerdeVida = 1;
         this.molusco = new Molusco();
     }
 
@@ -47,11 +49,7 @@ this.contGO = 1;
     public void unload() {
     }
 
-    public void start() {
-        this.molusco.setY(200);
-        this.molusco.setX(100);
 
-    }
 
     public void step(long timeElapsed) {
         if (this.molusco.vida <= 0) {
@@ -88,7 +86,21 @@ this.contGO = 1;
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
-            this.molusco.vida = 0;
+            this.molusco.imgMorre();
+
+            this.controlePerdeVida = this.controlePerdeVida - 5;
+            this.molusco.setY(this.molusco.getY()+ controlePerdeVida);
+         
+            this.contGO++;
+            if (contGO >= 17){
+                this.contGO = 1;
+            this.molusco.perdeVida();
+            this.molusco.setX(100);
+            this.molusco.setY(100);
+            this.cenario.setInicio();
+        this.controlePerdeVida = 1;
+        this.molusco.alteraImagem(this.molusco.imgNormal);
+            }
         }
 
 
@@ -141,5 +153,9 @@ this.contGO = 1;
     }
 
     public void stop() {
+    }
+
+    @Override
+    public void start() {
     }
 }
