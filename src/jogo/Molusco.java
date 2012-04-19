@@ -102,6 +102,12 @@ public class Molusco extends ObjetoComGravidade{
         this.setAltura( this.imgAtual.pegaAltura() );
         this.setLargura( this.imgAtual.pegaLargura() );
     }
+     
+          public void imgMorre(){
+        this.imgAtual = this.imgMorre;
+        this.setAltura( this.imgAtual.pegaAltura() );
+        this.setLargura( this.imgAtual.pegaLargura() );
+    }
 
     private void superPulo() {
         if(this.estaNoChao){
@@ -133,7 +139,7 @@ public class Molusco extends ObjetoComGravidade{
             this.alteraImagem( this.imgPulo );
         } else {
             this.estado = EstadoPersonagem.NORMAL;
-            this.alteraImagem( this.imgNormal );
+          //  this.alteraImagem( this.imgNormal );
         }
     }
     
@@ -150,5 +156,4 @@ public class Molusco extends ObjetoComGravidade{
 public Rectangle getRectangle() {
        return new Rectangle(this.x, this.y, this.imgAtual.pegaLargura(), this.imgAtual.pegaAltura());
     }
-    
 }

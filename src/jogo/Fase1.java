@@ -22,17 +22,17 @@ public class Fase1 implements GameStateController {
     private int bombax;
     private int bombay;
     private Vida vida;
-
+private int contGO;
     public Fase1() {
         this.molusco = new Molusco();
     }
 
     public void load() {
-
+this.contGO = 1;
         this.bombax = 20;
         this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(100,100);
+        this.vida = new Vida(100, 100);
 
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
@@ -55,8 +55,15 @@ public class Fase1 implements GameStateController {
 
     public void step(long timeElapsed) {
         if (this.molusco.vida <= 0) {
-            JOptionPane.showMessageDialog(null, "Game Over.");
-            System.exit(0);
+            this.molusco.imgMorre();
+            int controle = 1;
+            controle = controle - 30;
+            this.molusco.setY(this.molusco.getY()+ controle);
+         
+            this.contGO++;
+            if (contGO >= 17){
+             JOptionPane.showMessageDialog(null, "Game Over.");
+             System.exit(0);}
         }
 
         this.molusco.step(timeElapsed);
@@ -79,7 +86,7 @@ public class Fase1 implements GameStateController {
             System.exit(0);
         }
 
-        
+
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.vida = 0;
         }
