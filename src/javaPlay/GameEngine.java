@@ -19,7 +19,7 @@ public class GameEngine
     private Mouse mouse;
     private Keyboard keyboard;
 
-    //kaleu: Número de frames por segundo do jogo.
+    //kaleu: Numero de frames por segundo do jogo.
 	private int framesPerSecond;
     private long lastTime;
     private long timeElapsed;
@@ -123,10 +123,10 @@ public class GameEngine
         {            
             currentTime = System.currentTimeMillis();
 
-			// Verifica se o tempo necessário para o próximo frame já passou.
+			// Verifica se o tempo necessario para o proximo frame ja passou.
 			if(!this.timeElapsedToFrame(currentTime)){                
 				continue;
-				//Pula para próxima iteração.
+				//Pula para prï¿½xima iteraï¿½ï¿½o.
 			}            
 
 

@@ -84,9 +84,9 @@ public class Molusco extends ObjetoComGravidade{
     
     public void draw(Graphics g) {
           g.setColor(Color.white);
-        g.drawString(this.vida + "", this.x + 20, this.y - 10);
+       // g.drawString(this.vida + "", this.x + 20, this.y - 10);
 
-        g.drawRect(this.x, this.y, this.imgAtual.pegaLargura(), this.imgAtual.pegaAltura());
+      
          if (this.virado == 1){
         this.imgAtual.draw(g, this.x, this.y);
      }else{

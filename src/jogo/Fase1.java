@@ -80,8 +80,7 @@ this.contGO = 1;
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
             //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
-            JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
-            System.exit(0);
+GameEngine.getInstance().setStartingGameStateController(2);
         }
 
 
@@ -104,8 +103,10 @@ this.contGO = 1;
         }
 
 
-        if (this.molusco.temColisao(vida)) {
+          if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
+            this.vida.setY(500000000);
+
 
         }
         this.cenario.step(timeElapsed);
