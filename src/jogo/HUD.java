@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javaPlay.GameObject;
 import javaPlayExtras.Imagem;
 
-/**
+/*
  *
  * @author nelito_vieira-junior
  */
@@ -20,15 +20,14 @@ public class HUD extends GameObject {
     boolean active;
     private int valor;
     private Imagem img;
-    private Molusco molusco;
-    private int vidaDraw;
-public int cont;
+    public int cont;
+
     public HUD() {
-        this.molusco = new Molusco();
         this.active = true;
         this.x = 50;
         this.y = 50;
         this.valor = 3;
+        this.cont = 3;
 
         try {
             this.img = new Imagem("resources/vidas.png");
@@ -41,18 +40,15 @@ public int cont;
     }
 
     public void step(long timeElapsed) {
-        this.vidaDraw = this.molusco.vida;
+        this.cont = Molusco.vidaHUD;
     }
 
     public void draw(Graphics g) {
-        this.cont = this.molusco.vida;
-        while (cont > 0) {
-            int lado = 50 * cont;
-            this.img.draw(g, (this.x + lado), this.y);
-            cont--;
-            lado = 0;
-        }
-        this.cont = 0;
+        int contL = this.cont;
+        int lado = 50 * contL;
+        this.img.draw(g, (this.x + lado), this.y);
+
+
 
     }
 

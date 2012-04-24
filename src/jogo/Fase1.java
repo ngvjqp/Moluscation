@@ -36,8 +36,8 @@ public class Fase1 implements GameStateController {
         this.bombax = 20;
         this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(100, 100);
-this.hud = new HUD();
+        this.vida = new Vida(500, 100);
+        this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
@@ -87,7 +87,7 @@ this.hud = new HUD();
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-this.hud.cont--;
+            this.hud.cont-= 1;
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
@@ -150,7 +150,7 @@ this.hud.cont--;
             bombas.draw(g);
         }
         this.vida.draw(g);
-this.hud.draw(g);
+        this.hud.draw(g);
     }
 
     public void stop() {

@@ -12,6 +12,7 @@ import javaPlayExtras.ObjetoComGravidade;
 import javax.swing.JOptionPane;
 
 public class Molusco extends ObjetoComGravidade{
+    static int vidaHUD = 3;
     
     protected int vida = 3;
     protected int velocidade = 10;
@@ -24,6 +25,7 @@ public class Molusco extends ObjetoComGravidade{
     protected Imagem imgPulo;
     protected Imagem imgAtual;
     protected Imagem imgMorre;
+    
     
     public Molusco(){
     
@@ -146,6 +148,7 @@ public class Molusco extends ObjetoComGravidade{
     
         public void perdeVida(){
         this.vida -= 1;
+        this.vidaHUD--;
     }
         
         public void ganhaVida(){
@@ -156,4 +159,9 @@ public class Molusco extends ObjetoComGravidade{
 public Rectangle getRectangle() {
        return new Rectangle(this.x, this.y, this.imgAtual.pegaLargura(), this.imgAtual.pegaAltura());
     }
+
+public int vida(){
+return this.vida;
+}
+
 }
