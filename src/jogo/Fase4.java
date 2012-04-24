@@ -13,7 +13,7 @@ import javaPlayExtras.Keys;
 import javaPlay.Keyboard;
 import javax.swing.JOptionPane;
 
-public class Fase3 implements GameStateController {
+public class Fase4 implements GameStateController {
 
     private Molusco molusco;
     private ArrayList<Bomba> bombas;
@@ -25,7 +25,7 @@ public class Fase3 implements GameStateController {
     int controlePerdeVida;
     boolean first;
 
-    public Fase3() {
+    public Fase4() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
         this.first = false;
@@ -49,7 +49,7 @@ public class Fase3 implements GameStateController {
         this.vida = new Vida(1800, 400);
         this.hud = new HUD();
         try {
-            this.cenario = new CenarioComColisao("resources/cenario3.scn");
+            this.cenario = new CenarioComColisao("resources/cenario4.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
 
         } catch (FileNotFoundException ex) {
@@ -121,7 +121,7 @@ public class Fase3 implements GameStateController {
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            GameEngine.getInstance().setStartingGameStateController(4);
+            GameEngine.getInstance().setStartingGameStateController(5);
         }
 
 
