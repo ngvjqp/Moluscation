@@ -22,13 +22,16 @@ public class Fase3 implements GameStateController {
     private long contadorTempo;
     private int bombax;
     private int bombay;
+    private HUD hud;
     private Vida vida;
     private int contGO;
     int controlePerdeVida;
+    boolean first;
 
     public Fase3() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
+        this.first = false;
     }
 
     public void load() {
@@ -36,8 +39,8 @@ public class Fase3 implements GameStateController {
         //this.bombax = 20;
         //this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(100, 100);
-
+        this.vida = new Vida(1000, 100);
+        this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario

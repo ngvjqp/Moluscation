@@ -71,8 +71,13 @@ public class Fase2 implements GameStateController {
             int controle = 1;
             controle = controle - 30;
             this.molusco.setY(this.molusco.getY() + controle);
-            JOptionPane.showMessageDialog(null, "Game Over.");
-            System.exit(0);
+             
+            this.contGO++;
+            if (contGO >= 17) {
+                JOptionPane.showMessageDialog(null, "Game Over.");
+                System.exit(0);
+            }
+           
 
         }
 
