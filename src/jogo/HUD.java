@@ -20,14 +20,14 @@ public class HUD extends GameObject {
     boolean active;
     private int valor;
     private Imagem img;
-    public int cont;
+    public int vidaCont;
 
     public HUD() {
         this.active = true;
         this.x = 50;
         this.y = 50;
         this.valor = 3;
-        this.cont = 3;
+        this.vidaCont = 3;
 
         try {
             this.img = new Imagem("resources/vidas.png");
@@ -40,14 +40,16 @@ public class HUD extends GameObject {
     }
 
     public void step(long timeElapsed) {
-        this.cont = Molusco.vidaHUD;
+        this.vidaCont = Molusco.vidaHUD;
     }
 
     public void draw(Graphics g) {
-        int contL = this.cont;
-        int lado = 50 * contL;
-        this.img.draw(g, (this.x + lado), this.y);
-
+        int contL = this.vidaCont;
+        while (contL > 0) {
+            int lado = 50 * contL;
+            this.img.draw(g, (this.x + lado), this.y);
+            contL--;
+        }
 
 
     }
