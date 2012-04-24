@@ -11,7 +11,6 @@ import javaPlay.GameStateController;
 import javaPlayExtras.CenarioComColisao;
 import javaPlayExtras.Keys;
 import javaPlay.Keyboard;
-import javaPlayExtras.AudioPlayer;
 import javax.swing.JOptionPane;
 
 public class Fase2 implements GameStateController {
@@ -23,12 +22,15 @@ public class Fase2 implements GameStateController {
     private int bombax;
     private int bombay;
     private Vida vida;
+    private HUD hud;
     private int contGO;
     int controlePerdeVida;
+    boolean first;
 
     public Fase2() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
+        this.first = false;
     }
 
     public void load() {
@@ -36,8 +38,8 @@ public class Fase2 implements GameStateController {
         this.bombax = 20;
         this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(100, 100);
-
+        this.vida = new Vida(500, 100);
+        this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario2.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
@@ -57,12 +59,9 @@ public class Fase2 implements GameStateController {
             int controle = 1;
             controle = controle - 30;
             this.molusco.setY(this.molusco.getY() + controle);
+            JOptionPane.showMessageDialog(null, "Game Over.");
+            System.exit(0);
 
-            this.contGO++;
-            if (contGO >= 17) {
-                JOptionPane.showMessageDialog(null, "Game Over.");
-                System.exit(0);
-            }
         }
 
         this.molusco.step(timeElapsed);
@@ -81,36 +80,41 @@ public class Fase2 implements GameStateController {
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
             //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
-            JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
-            System.exit(0);
+            GameEngine.getInstance().setStartingGameStateController(2);
         }
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-            
+
+
+
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
             this.contGO++;
-            if (contGO == 5){
-           
-            }
             if (contGO >= 17) {
-
                 this.contGO = 1;
                 this.molusco.perdeVida();
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.controlePerdeVida = 1;
                 this.molusco.alteraImagem(this.molusco.imgNormal);
+                this.first = true;
+            }
+            if (this.first == true) {
+                this.hud.vidaCont -= 1;
+                this.first = false;
+                this.controlePerdeVida = 1;
             }
         }
 
 
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
+            this.vida.setY(500000000);
+            this.hud.vidaCont++;
+
 
         }
         this.cenario.step(timeElapsed);
@@ -153,8 +157,7 @@ public class Fase2 implements GameStateController {
             bombas.draw(g);
         }
         this.vida.draw(g);
-
-
+        this.hud.draw(g);
     }
 
     public void stop() {

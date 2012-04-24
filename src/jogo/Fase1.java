@@ -113,7 +113,7 @@ public class Fase1 implements GameStateController {
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
             this.vida.setY(500000000);
-            this.hud.vidaCont++;e
+            this.hud.vidaCont++;
 
 
         }
