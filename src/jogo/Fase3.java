@@ -14,7 +14,7 @@ import javaPlay.Keyboard;
 import javaPlayExtras.AudioPlayer;
 import javax.swing.JOptionPane;
 
-public class Fase2 implements GameStateController {
+public class Fase3 implements GameStateController {
 
     private Molusco molusco;
     private ArrayList<Bomba> bombas;
@@ -26,7 +26,7 @@ public class Fase2 implements GameStateController {
     private int contGO;
     int controlePerdeVida;
 
-    public Fase2() {
+    public Fase3() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
     }
@@ -36,10 +36,10 @@ public class Fase2 implements GameStateController {
         //this.bombax = 20;
         //this.bombay = 200;
         this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(1800, 100);
+        this.vida = new Vida(100, 100);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario2.scn");
+            this.cenario = new CenarioComColisao("resources/cenario1.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
 
         } catch (FileNotFoundException ex) {
@@ -79,11 +79,11 @@ public class Fase2 implements GameStateController {
 
 
         //CASO encontre a TILE com o antídoto
-              if (this.cenario.temColisaoComTile(molusco, 4)) {
-            
-            GameEngine.getInstance().setStartingGameStateController(3);
+        if (this.cenario.temColisaoComTile(molusco, 4)) {
+            //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
+            JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
+            System.exit(0);
         }
-
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {

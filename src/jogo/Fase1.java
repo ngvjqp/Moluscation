@@ -47,7 +47,7 @@ public class Fase1 implements GameStateController {
         
         
         
-        this.vida = new Vida(500, 100);
+        this.vida = new Vida(1800, 400);
         this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
@@ -88,7 +88,7 @@ public class Fase1 implements GameStateController {
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
+            
             GameEngine.getInstance().setStartingGameStateController(2);
         }
 
@@ -122,7 +122,7 @@ public class Fase1 implements GameStateController {
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
             this.vida.setY(500000000);
-            this.hud.vidaCont++;e
+            this.hud.vidaCont++;
 
 
         }
