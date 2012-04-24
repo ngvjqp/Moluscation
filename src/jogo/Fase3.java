@@ -14,7 +14,7 @@ import javaPlay.Keyboard;
 import javaPlayExtras.AudioPlayer;
 import javax.swing.JOptionPane;
 
-public class Fase2 implements GameStateController {
+public class Fase3 implements GameStateController {
 
     private Molusco molusco;
     private ArrayList<Bomba> bombas;
@@ -23,37 +23,23 @@ public class Fase2 implements GameStateController {
     private int bombax;
     private int bombay;
     private Vida vida;
-    private HUD hud;
     private int contGO;
     int controlePerdeVida;
-    boolean first;
 
-    public Fase2() {
+    public Fase3() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
-        this.first = false;
     }
 
     public void load() {
         this.contGO = 1;
-
-        
-       
-        try {
-            //this.bombax = 20;
-            //this.bombay = 200;
-            this.bombas = new ArrayList<Bomba>();
-        } catch (Exception ex) {
-            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        this.vida = new Vida(500, 100);
-        this.hud = new HUD();
+        //this.bombax = 20;
+        //this.bombay = 200;
+        this.bombas = new ArrayList<Bomba>();
+        this.vida = new Vida(100, 100);
 
         try {
-            this.cenario = new CenarioComColisao("resources/cenario2.scn");
+            this.cenario = new CenarioComColisao("resources/cenario1.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
 
         } catch (FileNotFoundException ex) {
@@ -71,38 +57,20 @@ public class Fase2 implements GameStateController {
             int controle = 1;
             controle = controle - 30;
             this.molusco.setY(this.molusco.getY() + controle);
-            JOptionPane.showMessageDialog(null, "Game Over.");
-            System.exit(0);
 
+            this.contGO++;
+            if (contGO >= 17) {
+                JOptionPane.showMessageDialog(null, "Game Over.");
+                System.exit(0);
+            }
         }
 
         this.molusco.step(timeElapsed);
 
-
-        for (Bomba nitros : this.bombas) {
+         for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
-         this.molusco.imgMorre();
-
-
-
-            this.controlePerdeVida = this.controlePerdeVida - 5;
-            this.molusco.setY(this.molusco.getY() + controlePerdeVida);
-
-            this.contGO++;
-            if (contGO >= 17) {
-                this.contGO = 1;
                 this.molusco.perdeVida();
-                this.molusco.setX(100);
-                this.molusco.setY(100);
-                this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
-                this.first = true;
-            }
-            if (this.first == true) {
-                this.hud.vidaCont -= 1;
-                this.first = false;
-                this.controlePerdeVida = 1;
-            }
+                this.molusco.setX(400);
             }
             nitros.step(timeElapsed);
 
@@ -110,53 +78,46 @@ public class Fase2 implements GameStateController {
         }
 
 
-        if (this.cenario.temColisaoComTile(molusco, 4)) {            
-            GameEngine.getInstance().setStartingGameStateController(3);
-
+        //CASO encontre a TILE com o antídoto
+        if (this.cenario.temColisaoComTile(molusco, 4)) {
+            //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
+            JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
+            System.exit(0);
         }
-
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-
-
-
+            
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
             this.contGO++;
+            if (contGO == 5){
+           
+            }
             if (contGO >= 17) {
+
                 this.contGO = 1;
                 this.molusco.perdeVida();
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
-                this.first = true;
-            }
-            if (this.first == true) {
-                this.hud.vidaCont -= 1;
-                this.first = false;
                 this.controlePerdeVida = 1;
+                this.molusco.alteraImagem(this.molusco.imgNormal);
             }
         }
 
 
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
-            this.vida.setY(500000000);
-            this.hud.vidaCont++;
-
 
         }
         this.cenario.step(timeElapsed);
         this.vida.step(timeElapsed);
 
         contadorTempo += timeElapsed;
-
-      if (contadorTempo > 3000) { //tres segundos
-
+     if (contadorTempo > 3000) { //tres segundos
        Bomba novo = null;
       try {
          novo = new Bomba(1000, 400);
@@ -167,30 +128,23 @@ public class Fase2 implements GameStateController {
       this.cenario.adicionaObjeto(novo);
             contadorTempo -= 3000;
             
-      }  
+        }
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
         if (keyboard.keyDown(Keys.DIREITA)) {
             this.cenario.moveCenarioTras(20);
-            //this.bombax -= 20;
-            //this.bombas.setX(-20);
-            for(Bomba nitros : bombas){
+             for(Bomba nitros : bombas){
                    nitros.setX(nitros.getX()-20);
                 
             }
-            
         }
 
         if (keyboard.keyDown(Keys.ESQUERDA)) {
             this.cenario.moveCenarioTras(-20);
-            //this.bombax += 20;
-            //this.bombas.setX(+20);
-            
             for(Bomba nitros : bombas){
+                   nitros.setX(nitros.getX()+20);
                 
-                nitros.setX(nitros.getX()+20);
-                
-            }}
-
+            }
+        }
 
 
     }
@@ -206,13 +160,14 @@ public class Fase2 implements GameStateController {
             nitros.draw(g);
         }
         this.vida.draw(g);
-        this.hud.draw(g);
+
+
     }
 
     public void stop() {
     }
 
-
+    @Override
     public void start() {
     }
 }

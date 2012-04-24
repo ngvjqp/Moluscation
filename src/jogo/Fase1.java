@@ -47,7 +47,7 @@ public class Fase1 implements GameStateController {
         
         
         
-        this.vida = new Vida(500, 100);
+        this.vida = new Vida(1800, 400);
         this.hud = new HUD();
         try {
             this.cenario = new CenarioComColisao("resources/cenario1.scn");
@@ -77,7 +77,7 @@ public class Fase1 implements GameStateController {
 
         for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
-<<<<<<< HEAD
+
          this.molusco.imgMorre();
 
 
@@ -88,8 +88,6 @@ public class Fase1 implements GameStateController {
             this.contGO++;
             if (contGO >= 17) {
                 this.contGO = 1;
-=======
->>>>>>> 0c9d83d56b1152b3f1115b381d21fc7b240a4429
                 this.molusco.perdeVida();
                 this.molusco.setX(100);
                 this.molusco.setY(100);
@@ -102,10 +100,8 @@ public class Fase1 implements GameStateController {
                 this.first = false;
                 this.controlePerdeVida = 1;
             }
-<<<<<<< HEAD
-            }
-=======
->>>>>>> 0c9d83d56b1152b3f1115b381d21fc7b240a4429
+           }
+
             nitros.step(timeElapsed);
 
 
@@ -114,7 +110,7 @@ public class Fase1 implements GameStateController {
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
+            
             GameEngine.getInstance().setStartingGameStateController(2);
         }
 
