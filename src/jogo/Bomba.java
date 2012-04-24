@@ -13,9 +13,9 @@ import javaPlayExtras.ObjetoComGravidade;
 
 public class Bomba extends ObjetoComGravidade {
 
-    private int velocidade;
+    //private int velocidade;
     protected Imagem imgNormal;
-    protected Imagem imgAtual;
+    
 
 
 
@@ -24,28 +24,29 @@ public class Bomba extends ObjetoComGravidade {
         this.y = y;
         this.largura = 32;
         this.altura = 32;
-        this.velocidade = 5;
+       // this.velocidade = 5;
 
             this.imgNormal = new Imagem("resources/NITRO.png");
 
-        this.imgAtual = this.imgNormal;
-        this.altura = this.imgAtual.pegaAltura();
-        this.largura = this.imgAtual.pegaLargura();
+       
+        this.altura = this.imgNormal.pegaAltura();
+        this.largura = this.imgNormal.pegaLargura();
     }
 
     public void step(long timeElapsed) {
         super.step(timeElapsed);
-        this.x -= this.velocidade;
-                Keyboard keyboard = GameEngine.getInstance().getKeyboard();
+        //this.x -= this.velocidade;
+               // Keyboard keyboard = GameEngine.getInstance().getKeyboard();
         
-        if( keyboard.keyDown(Keys.DIREITA) ){
-        this.x -= 10;}
+        //if( keyboard.keyDown(Keys.DIREITA) ){
+       // this.x -= 10;}
         
-         if( keyboard.keyDown(Keys.ESQUERDA) ){
-        this.x += 5;}
+         //if( keyboard.keyDown(Keys.ESQUERDA) ){
+       // this.x += 5;}
+  //  }
     }
 
     public void draw(Graphics g) {
-        this.imgAtual.draw(g, this.x, this.y);
+        this.imgNormal.draw(g, this.x, this.y);
     }
 }

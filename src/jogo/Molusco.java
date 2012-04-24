@@ -15,7 +15,7 @@ public class Molusco extends ObjetoComGravidade{
     static int vidaHUD = 3;
     
     protected int vida = 3;
-    protected int velocidade = 10;
+    protected int velocidade = 5;
     protected EstadoPersonagem estado;
     protected int virado;
     
