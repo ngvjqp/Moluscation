@@ -25,10 +25,12 @@ public class Fase1 implements GameStateController {
     private HUD hud;
     private int contGO;
     int controlePerdeVida;
+    boolean first;
 
     public Fase1() {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
+        this.first = false;
     }
 
     public void load() {
@@ -57,12 +59,9 @@ public class Fase1 implements GameStateController {
             int controle = 1;
             controle = controle - 30;
             this.molusco.setY(this.molusco.getY() + controle);
+            JOptionPane.showMessageDialog(null, "Game Over.");
+            System.exit(0);
 
-            this.contGO++;
-            if (contGO >= 17) {
-                JOptionPane.showMessageDialog(null, "Game Over.");
-                System.exit(0);
-            }
         }
 
         this.molusco.step(timeElapsed);
@@ -87,7 +86,9 @@ public class Fase1 implements GameStateController {
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-            this.hud.cont-= 1;
+
+
+
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
@@ -98,8 +99,13 @@ public class Fase1 implements GameStateController {
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.controlePerdeVida = 1;
                 this.molusco.alteraImagem(this.molusco.imgNormal);
+                this.first = true;
+            }
+            if (this.first == true) {
+                this.hud.vidaCont -= 1;
+                this.first = false;
+                this.controlePerdeVida = 1;
             }
         }
 
@@ -107,6 +113,7 @@ public class Fase1 implements GameStateController {
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
             this.vida.setY(500000000);
+            this.hud.vidaCont++;e
 
 
         }
