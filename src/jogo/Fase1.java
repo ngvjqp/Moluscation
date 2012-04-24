@@ -77,6 +77,7 @@ public class Fase1 implements GameStateController {
 
         for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
+<<<<<<< HEAD
          this.molusco.imgMorre();
 
 
@@ -87,6 +88,8 @@ public class Fase1 implements GameStateController {
             this.contGO++;
             if (contGO >= 17) {
                 this.contGO = 1;
+=======
+>>>>>>> 0c9d83d56b1152b3f1115b381d21fc7b240a4429
                 this.molusco.perdeVida();
                 this.molusco.setX(100);
                 this.molusco.setY(100);
@@ -99,7 +102,10 @@ public class Fase1 implements GameStateController {
                 this.first = false;
                 this.controlePerdeVida = 1;
             }
+<<<<<<< HEAD
             }
+=======
+>>>>>>> 0c9d83d56b1152b3f1115b381d21fc7b240a4429
             nitros.step(timeElapsed);
 
 
