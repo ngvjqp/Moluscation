@@ -122,7 +122,8 @@ this.molusco.setX(100);
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            GameEngine.getInstance().setStartingGameStateController(4);
+          JOptionPane.showMessageDialog(null,"Parabéns! Você venceu!");
+          System.exit(0);
         }
 
 
