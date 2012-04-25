@@ -12,6 +12,7 @@ import javaPlayExtras.Imagem;
 import javaPlayExtras.Keys;
 import javaPlayExtras.ObjetoComGravidade;
 import jogo.Molusco.*;
+
 public class Vida extends GameObject {
 
     private Imagem img;
@@ -34,30 +35,21 @@ public class Vida extends GameObject {
     }
 
     public void step(long timeElapsed) {
-        Keyboard keyboard = GameEngine.getInstance().getKeyboard();
-        if (keyboard.keyDown(Keys.DIREITA)) {
+    }
 
-            this.x = this.x - 20;
-        }
-
-        if (keyboard.keyDown(Keys.ESQUERDA)) {
-            this.x = this.x + 20;
-        }
+    public void move(int pixels) {
+        this.x = this.x + pixels;
     }
 
     public void draw(Graphics g) {
         this.img.drawFlipped(g, this.x, this.y);
     }
-    
-       public void setActive(boolean isActive) {
+
+    public void setActive(boolean isActive) {
         this.active = isActive;
     }
 
-   public boolean isActive() {
+    public boolean isActive() {
         return this.active;
     }
-    
-    }
-       
-    
-
+}

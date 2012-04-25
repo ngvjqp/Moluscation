@@ -35,7 +35,7 @@ public class Fase2 implements GameStateController {
     public void load() {
         this.contGO = 1;
 
-
+this.molusco.setX(100);
         try {
             //this.bombax = 20;
             //this.bombay = 200;
@@ -175,44 +175,31 @@ public class Fase2 implements GameStateController {
 
         }
 
-        Keyboard keyboard = GameEngine.getInstance().getKeyboard();
+             Keyboard keyboard = GameEngine.getInstance().getKeyboard();
+
         if (keyboard.keyDown(Keys.DIREITA)) {
-            if (keyboard.keyDown(Keys.DIREITA)) {
-                this.cenario.moveCenarioTras(20);
-                if (this.molusco.xCam > 500) {
-                    this.molusco.velocidade = 0;
-                } else {
-                    this.molusco.velocidade = 5;
-                }
-                //this.bombax -= 20;
-                //this.bombas.setX(-20);
-                for (Bomba nitros : bombas) {
-                    nitros.setX(nitros.getX() - 20);
-                }
+            System.out.println(this.molusco.xCam);
+            this.moveCenarioTras(20);
+            if (this.molusco.xCam < 450) {
+                this.molusco.frente();
             }
         }
-
         if (keyboard.keyDown(Keys.ESQUERDA)) {
-                        this.cenario.moveCenarioTras(-20);
-            if (this.molusco.xCam > 150){
-            this.molusco.velocidade = 0;
-            }else{
-            this.molusco.velocidade = 5;
-            }
-
-            //this.bombax += 20;
-            //this.bombas.setX(+20);
-
-            for (Bomba nitros : bombas) {
-
-                nitros.setX(nitros.getX() + 20);
-
+        System.out.println(this.molusco.xCam);
+            this.moveCenarioTras(-20);
+            if (this.molusco.xCam < 250) {
+                this.molusco.frente();
             }
         }
+    }
+    
 
-
-
-
+    public void moveCenarioTras(int pixels) {
+        this.cenario.moveCenarioTras(pixels);
+        for (Bomba nitros : bombas) {
+            nitros.setX(nitros.getX() - pixels);
+            this.vida.move(pixels);
+        }
     }
 
     public void draw(Graphics g) {

@@ -67,10 +67,10 @@ public class Molusco extends ObjetoComGravidade {
         }
         if (keyboard.keyDown(Keys.ESQUERDA)) {
             this.virado = 0;
-            this.traz();
+
         } else if (keyboard.keyDown(Keys.DIREITA)) {
             this.virado = 1;
-            this.frente();
+
 
         } else if (keyboard.keyDown(Keys.CIMA)) {
             this.pulo();
@@ -82,7 +82,9 @@ public class Molusco extends ObjetoComGravidade {
 
 
     }
-
+public void setX(int shiz){
+this.x = shiz;
+}
     public void draw(Graphics g) {
         g.setColor(Color.white);
         // g.drawString(this.vida + "", this.x + 20, this.y - 10);
@@ -123,12 +125,12 @@ public class Molusco extends ObjetoComGravidade {
         }
     }
 
-    private void frente() {
+    public void frente() {
         this.alteraImagem(this.imgFrente);
         this.x += this.velocidade;
     }
 
-    private void traz() {
+    public void traz() {
         this.x -= this.velocidade;
     }
 

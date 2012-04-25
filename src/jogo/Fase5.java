@@ -29,7 +29,8 @@ public class Fase5 implements GameStateController {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
         this.first = false;
-                this.molusco.fase = 3;
+        this.molusco.fase = 3;
+this.molusco.setX(100);
     }
 
     public void load() {
@@ -39,7 +40,7 @@ public class Fase5 implements GameStateController {
         try {
             //this.bombax = 20;
             //this.bombay = 200;
-            this.bombas = new ArrayList<Bomba>();            
+            this.bombas = new ArrayList<Bomba>();
         } catch (Exception ex) {
             Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -55,7 +56,7 @@ public class Fase5 implements GameStateController {
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        
+
         Bomba novo = null;
         try {
             novo = new Bomba(800, 400);
@@ -174,44 +175,30 @@ public class Fase5 implements GameStateController {
             contadorTempo -= 3000;
 
         }
-
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
-if (keyboard.keyDown(Keys.DIREITA)) {
-            if (keyboard.keyDown(Keys.DIREITA)) {
-                this.cenario.moveCenarioTras(20);
-                if (this.molusco.xCam > 500) {
-                    this.molusco.velocidade = 0;
-                } else {
-                    this.molusco.velocidade = 5;
-                }
-                //this.bombax -= 20;
-                //this.bombas.setX(-20);
-                for (Bomba nitros : bombas) {
-                    nitros.setX(nitros.getX() - 20);
-                }
+
+        if (keyboard.keyDown(Keys.DIREITA)) {
+            System.out.println(this.molusco.xCam);
+            this.moveCenarioTras(20);
+            if (this.molusco.xCam < 450) {
+                this.molusco.frente();
             }
         }
-
         if (keyboard.keyDown(Keys.ESQUERDA)) {
-                        this.cenario.moveCenarioTras(-20);
-            if (this.molusco.xCam > 150){
-            this.molusco.velocidade = 0;
-            }else{
-            this.molusco.velocidade = 5;
-            }
-
-            //this.bombax += 20;
-            //this.bombas.setX(+20);
-
-            for (Bomba nitros : bombas) {
-
-                nitros.setX(nitros.getX() + 20);
-
+            System.out.println(this.molusco.xCam);
+            this.moveCenarioTras(-20);
+            if (this.molusco.xCam < 250) {
+                this.molusco.frente();
             }
         }
+    }
 
-
-
+    public void moveCenarioTras(int pixels) {
+        this.cenario.moveCenarioTras(pixels);
+        for (Bomba nitros : bombas) {
+            nitros.setX(nitros.getX() - pixels);
+            this.vida.move(pixels);
+        }
     }
 
     public void draw(Graphics g) {
@@ -232,6 +219,5 @@ if (keyboard.keyDown(Keys.DIREITA)) {
     }
 
     public void start() {
-
     }
 }
