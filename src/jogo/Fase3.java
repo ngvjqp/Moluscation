@@ -205,7 +205,7 @@ public class Fase3 implements GameStateController {
 
     }
 
-    public void draw(Graphics g) {
+public void draw(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, 800, 600);
 

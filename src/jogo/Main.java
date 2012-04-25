@@ -8,8 +8,10 @@ public class Main {
         GameEngine.getInstance().addGameStateController(1, new Fase1());
         GameEngine.getInstance().addGameStateController(2, new Fase2());
         GameEngine.getInstance().addGameStateController(3, new Fase3());
+        GameEngine.getInstance().addGameStateController(4, new Fase4());
+        GameEngine.getInstance().addGameStateController(5, new Fase5());
         
-        GameEngine.getInstance().setStartingGameStateController(5);
+        GameEngine.getInstance().setStartingGameStateController(1);
 
         GameEngine.getInstance().setFramesPerSecond(30);
         GameEngine.getInstance().run();
