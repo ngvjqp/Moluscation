@@ -24,6 +24,7 @@ public class Molusco extends ObjetoComGravidade {
     protected Imagem imgAtual;
     protected Imagem imgMorre;
     protected int fase;
+    protected int xCam;
 
     public Molusco() {
 
@@ -55,7 +56,7 @@ public class Molusco extends ObjetoComGravidade {
 
     public void step(long timeElapsed) {
         super.step(timeElapsed);
-
+        this.xCam = this.x;
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
 
 

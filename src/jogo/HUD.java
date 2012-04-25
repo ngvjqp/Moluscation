@@ -5,9 +5,11 @@
 package jogo;
 
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javaPlay.GameObject;
+import javaPlayExtras.CenarioComColisao;
 import javaPlayExtras.Imagem;
 
 /*
@@ -15,7 +17,7 @@ import javaPlayExtras.Imagem;
  * @author nelito_vieira-junior
  */
 public class HUD extends GameObject {
-
+private CenarioComColisao cenario;
     public Imagem vidas;
     boolean active;
     private int valor;
@@ -37,6 +39,7 @@ public class HUD extends GameObject {
 
         this.altura = this.img.pegaAltura();
         this.largura = this.img.pegaLargura();
+         
     }
 
     public void step(long timeElapsed) {

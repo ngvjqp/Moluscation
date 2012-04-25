@@ -11,7 +11,7 @@ import javaPlay.Keyboard;
 import javaPlayExtras.Imagem;
 import javaPlayExtras.Keys;
 import javaPlayExtras.ObjetoComGravidade;
-
+import jogo.Molusco.*;
 public class Vida extends GameObject {
 
     private Imagem img;
@@ -36,6 +36,7 @@ public class Vida extends GameObject {
     public void step(long timeElapsed) {
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
         if (keyboard.keyDown(Keys.DIREITA)) {
+
             this.x = this.x - 20;
         }
 

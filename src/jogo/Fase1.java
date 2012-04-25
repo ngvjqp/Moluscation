@@ -176,8 +176,16 @@ public class Fase1 implements GameStateController {
         }
 
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
+
         if (keyboard.keyDown(Keys.DIREITA)) {
+            if(this.molusco.xCam > 150){
             this.cenario.moveCenarioTras(20);
+            if (this.molusco.xCam > 500){
+            this.molusco.velocidade = 0;
+            }else{
+            this.molusco.velocidade = 5;
+            }
+            }
             //this.bombax -= 20;
             //this.bombas.setX(-20);
             for (Bomba nitros : bombas) {
@@ -189,7 +197,14 @@ public class Fase1 implements GameStateController {
         }
 
         if (keyboard.keyDown(Keys.ESQUERDA)) {
+            if (this.molusco.xCam < 500){
             this.cenario.moveCenarioTras(-20);
+            if (this.molusco.xCam > 150){
+            this.molusco.velocidade = 0;
+            }else{
+            this.molusco.velocidade = 5;
+            }
+            }
             //this.bombax += 20;
             //this.bombas.setX(+20);
 
