@@ -112,7 +112,7 @@ this.x = shiz;
 
     private void superPulo() {
         if (this.estaNoChao) {
-            this.alteraImagem(this.imgPulo);
+          //  this.alteraImagem(this.imgPulo);
 
             this.impulso(50);
         }
@@ -120,7 +120,7 @@ this.x = shiz;
 
     private void pulo() {
         if (this.estaNoChao) {
-            this.alteraImagem(this.imgPulo);
+         //   this.alteraImagem(this.imgPulo);
             this.impulso(30);
         }
     }

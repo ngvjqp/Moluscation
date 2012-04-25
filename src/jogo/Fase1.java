@@ -122,6 +122,7 @@ public class Fase1 implements GameStateController {
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
             GameEngine.getInstance().setStartingGameStateController(2);
+
         }
 
 
@@ -174,7 +175,6 @@ public class Fase1 implements GameStateController {
             contadorTempo -= 3000;
 
         }
-
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
 
         if (keyboard.keyDown(Keys.DIREITA)) {
@@ -185,7 +185,7 @@ public class Fase1 implements GameStateController {
             }
         }
         if (keyboard.keyDown(Keys.ESQUERDA)) {
-        System.out.println(this.molusco.xCam);
+            System.out.println(this.molusco.xCam);
             this.moveCenarioTras(-20);
             if (this.molusco.xCam < 250) {
                 this.molusco.frente();
