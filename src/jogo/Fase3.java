@@ -1,3 +1,4 @@
+
 package jogo;
 
 import java.awt.Color;
@@ -11,7 +12,6 @@ import javaPlay.GameStateController;
 import javaPlayExtras.CenarioComColisao;
 import javaPlayExtras.Keys;
 import javaPlay.Keyboard;
-import javaPlayExtras.AudioPlayer;
 import javax.swing.JOptionPane;
 
 public class Fase3 implements GameStateController {
@@ -20,10 +20,8 @@ public class Fase3 implements GameStateController {
     private ArrayList<Bomba> bombas;
     private CenarioComColisao cenario;
     private long contadorTempo;
-    private int bombax;
-    private int bombay;
-    private HUD hud;
     private Vida vida;
+    private HUD hud;
     private int contGO;
     int controlePerdeVida;
     boolean first;
@@ -32,22 +30,49 @@ public class Fase3 implements GameStateController {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
         this.first = false;
+                this.molusco.fase = 3;
     }
 
     public void load() {
         this.contGO = 1;
-        //this.bombax = 20;
-        //this.bombay = 200;
-        this.bombas = new ArrayList<Bomba>();
-        this.vida = new Vida(1000, 100);
+
+
+        try {
+            //this.bombax = 20;
+            //this.bombay = 200;
+            this.bombas = new ArrayList<Bomba>();            
+        } catch (Exception ex) {
+            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+        this.vida = new Vida(1800, 400);
         this.hud = new HUD();
         try {
-            this.cenario = new CenarioComColisao("resources/cenario1.scn");
+            this.cenario = new CenarioComColisao("resources/cenario3.scn");
             this.cenario.adicionaObjeto(molusco); //Aqui, o controle de colisão ´é transferido para o cenario
 
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        
+        Bomba novo = null;
+        try {
+            novo = new Bomba(800, 400);
+        } catch (Exception ex) {
+            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.bombas.add(novo);
+        this.cenario.adicionaObjeto(novo);
+
+        try {
+            novo = new Bomba(1000, 400);
+        } catch (Exception ex) {
+            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.bombas.add(novo);
+        this.cenario.adicionaObjeto(novo);
 
     }
 
@@ -60,117 +85,155 @@ public class Fase3 implements GameStateController {
             int controle = 1;
             controle = controle - 30;
             this.molusco.setY(this.molusco.getY() + controle);
+            JOptionPane.showMessageDialog(null, "Game Over.");
+            System.exit(0);
 
-            this.contGO++;
-            if (contGO >= 17) {
-                JOptionPane.showMessageDialog(null, "Game Over.");
-                System.exit(0);
-            }
         }
 
         this.molusco.step(timeElapsed);
 
-         for (Bomba nitros : this.bombas) {
+        for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
-                this.molusco.perdeVida();
-                this.molusco.setX(400);
+
+                this.molusco.imgMorre();
+
+                this.controlePerdeVida = this.controlePerdeVida - 5;
+                this.molusco.setY(this.molusco.getY() + controlePerdeVida);
+
+                this.contGO++;
+                if (contGO >= 17) {
+                    this.contGO = 1;
+                    this.molusco.perdeVida();
+                    this.molusco.setX(100);
+                    this.molusco.setY(100);
+                    this.cenario.setInicio();
+                    this.molusco.alteraImagem(this.molusco.imgNormal);
+                    this.first = true;
+                }
+                if (this.first == true) {
+                    this.hud.vidaCont -= 1;
+                    this.first = false;
+                    this.controlePerdeVida = 1;
+                }
             }
             nitros.step(timeElapsed);
-
-
         }
 
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            //     AQUI TEM QUE BOTAR PRA TROCAR A IMAGEM PRA MORTO 
-            JOptionPane.showMessageDialog(null, "Parabéns, você venceu.");
-            System.exit(0);
+            GameEngine.getInstance().setStartingGameStateController(4);
         }
 
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-            
+
+
+
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
             this.contGO++;
-            if (contGO == 5){
-           
-            }
             if (contGO >= 17) {
-
                 this.contGO = 1;
                 this.molusco.perdeVida();
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.controlePerdeVida = 1;
                 this.molusco.alteraImagem(this.molusco.imgNormal);
+                this.first = true;
+            }
+            if (this.first == true) {
+                this.hud.vidaCont -= 1;
+                this.first = false;
+                this.controlePerdeVida = 1;
             }
         }
 
 
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
+            this.vida.setY(500000000);
+            this.hud.vidaCont++;
+
 
         }
         this.cenario.step(timeElapsed);
         this.vida.step(timeElapsed);
 
         contadorTempo += timeElapsed;
-     if (contadorTempo > 3000) { //tres segundos
-       Bomba novo = null;
-      try {
-         novo = new Bomba(1000, 400);
-      } catch (Exception ex) {
-          Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          this.bombas.add(novo);
-      this.cenario.adicionaObjeto(novo);
+        if (contadorTempo > 3000000) { //tres segundos
+            Bomba novo = null;
+            try {
+                novo = new Bomba(1000, 400);
+            } catch (Exception ex) {
+                Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.bombas.add(novo);
+            this.cenario.adicionaObjeto(novo);
             contadorTempo -= 3000;
-            
+
         }
+
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
-        if (keyboard.keyDown(Keys.DIREITA)) {
-            this.cenario.moveCenarioTras(20);
-             for(Bomba nitros : bombas){
-                   nitros.setX(nitros.getX()-20);
-                
+if (keyboard.keyDown(Keys.DIREITA)) {
+            if (keyboard.keyDown(Keys.DIREITA)) {
+                this.cenario.moveCenarioTras(20);
+                if (this.molusco.xCam > 500) {
+                    this.molusco.velocidade = 0;
+                } else {
+                    this.molusco.velocidade = 5;
+                }
+                //this.bombax -= 20;
+                //this.bombas.setX(-20);
+                for (Bomba nitros : bombas) {
+                    nitros.setX(nitros.getX() - 20);
+                }
             }
         }
 
         if (keyboard.keyDown(Keys.ESQUERDA)) {
-            this.cenario.moveCenarioTras(-20);
-            for(Bomba nitros : bombas){
-                   nitros.setX(nitros.getX()+20);
-                
+                        this.cenario.moveCenarioTras(-20);
+            if (this.molusco.xCam > 150){
+            this.molusco.velocidade = 0;
+            }else{
+            this.molusco.velocidade = 5;
+            }
+
+            //this.bombax += 20;
+            //this.bombas.setX(+20);
+
+            for (Bomba nitros : bombas) {
+
+                nitros.setX(nitros.getX() + 20);
+
             }
         }
 
 
+
     }
 
-    public void draw(Graphics g) {
+public void draw(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, 800, 600);
 
 
         this.cenario.draw(g);
         this.molusco.draw(g);
-        for (Bomba nitros : this.bombas) {
-            nitros.draw(g);
+        for (Bomba bombas : this.bombas) {
+            bombas.draw(g);
         }
         this.vida.draw(g);
-
-
+        this.hud.draw(g);
     }
 
     public void stop() {
     }
 
-    @Override
     public void start() {
+
     }
 }
+

@@ -19,8 +19,6 @@ public class Fase1 implements GameStateController {
     private ArrayList<Bomba> bombas;
     private CenarioComColisao cenario;
     private long contadorTempo;
-    private int bombax;
-    private int bombay;
     private Vida vida;
     private HUD hud;
     private int contGO;
@@ -31,22 +29,23 @@ public class Fase1 implements GameStateController {
         controlePerdeVida = 1;
         this.molusco = new Molusco();
         this.first = false;
+
     }
 
     public void load() {
         this.contGO = 1;
-        
-       
+
+
         try {
             //this.bombax = 20;
             //this.bombay = 200;
-            this.bombas = new ArrayList<Bomba>();
+            this.bombas = new ArrayList<Bomba>();            
         } catch (Exception ex) {
             Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
+
+
+
         this.vida = new Vida(1800, 400);
         this.hud = new HUD();
         try {
@@ -56,6 +55,23 @@ public class Fase1 implements GameStateController {
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+        
+        Bomba novo = null;
+        try {
+            novo = new Bomba(800, 400);
+        } catch (Exception ex) {
+            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.bombas.add(novo);
+        this.cenario.adicionaObjeto(novo);
+
+        try {
+            novo = new Bomba(1000, 400);
+        } catch (Exception ex) {
+            Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.bombas.add(novo);
+        this.cenario.adicionaObjeto(novo);
 
     }
 
@@ -78,39 +94,33 @@ public class Fase1 implements GameStateController {
         for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
 
-         this.molusco.imgMorre();
+                this.molusco.imgMorre();
 
+                this.controlePerdeVida = this.controlePerdeVida - 5;
+                this.molusco.setY(this.molusco.getY() + controlePerdeVida);
 
-
-            this.controlePerdeVida = this.controlePerdeVida - 5;
-            this.molusco.setY(this.molusco.getY() + controlePerdeVida);
-
-            this.contGO++;
-            if (contGO >= 17) {
-                this.contGO = 1;
-                this.molusco.perdeVida();
-                this.molusco.setX(100);
-                this.molusco.setY(100);
-                this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
-                this.first = true;
+                this.contGO++;
+                if (contGO >= 17) {
+                    this.contGO = 1;
+                    this.molusco.perdeVida();
+                    this.molusco.setX(100);
+                    this.molusco.setY(100);
+                    this.cenario.setInicio();
+                    this.molusco.alteraImagem(this.molusco.imgNormal);
+                    this.first = true;
+                }
+                if (this.first == true) {
+                    this.hud.vidaCont -= 1;
+                    this.first = false;
+                    this.controlePerdeVida = 1;
+                }
             }
-            if (this.first == true) {
-                this.hud.vidaCont -= 1;
-                this.first = false;
-                this.controlePerdeVida = 1;
-            }
-           }
-
             nitros.step(timeElapsed);
-
-
         }
 
 
         //CASO encontre a TILE com o antídoto
         if (this.cenario.temColisaoComTile(molusco, 4)) {
-            
             GameEngine.getInstance().setStartingGameStateController(2);
         }
 
@@ -152,43 +162,60 @@ public class Fase1 implements GameStateController {
         this.vida.step(timeElapsed);
 
         contadorTempo += timeElapsed;
-      if (contadorTempo > 3000) { //tres segundos
-       Bomba novo = null;
-      try {
-         novo = new Bomba(1000, 400);
-      } catch (Exception ex) {
-          Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
-          }
-          this.bombas.add(novo);
-      this.cenario.adicionaObjeto(novo);
+        if (contadorTempo > 3000000) { //tres segundos
+            Bomba novo = null;
+            try {
+                novo = new Bomba(1000, 400);
+            } catch (Exception ex) {
+                Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.bombas.add(novo);
+            this.cenario.adicionaObjeto(novo);
             contadorTempo -= 3000;
-            
-      }  
+
+        }
+
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
+
         if (keyboard.keyDown(Keys.DIREITA)) {
+            if(this.molusco.xCam > 150){
             this.cenario.moveCenarioTras(20);
+            if (this.molusco.xCam > 500){
+            this.molusco.velocidade = 0;
+            }else{
+            this.molusco.velocidade = 5;
+            }
+            }
             //this.bombax -= 20;
             //this.bombas.setX(-20);
-            for(Bomba nitros : bombas){
-                   nitros.setX(nitros.getX()-20);
-                
+            for (Bomba nitros : bombas) {
+                nitros.setX(nitros.getX() - 20);
+
             }
-            
-            
+
+
         }
 
         if (keyboard.keyDown(Keys.ESQUERDA)) {
+            if (this.molusco.xCam < 500){
             this.cenario.moveCenarioTras(-20);
+            if (this.molusco.xCam > 150){
+            this.molusco.velocidade = 0;
+            }else{
+            this.molusco.velocidade = 5;
+            }
+            }
             //this.bombax += 20;
             //this.bombas.setX(+20);
-            
-            for(Bomba nitros : bombas){
-                
-                nitros.setX(nitros.getX()+20);
-                
-            }}
-       
-        
+
+            for (Bomba nitros : bombas) {
+
+                nitros.setX(nitros.getX() + 20);
+
+            }
+        }
+
+
 
 
     }
@@ -210,7 +237,7 @@ public class Fase1 implements GameStateController {
     public void stop() {
     }
 
-
     public void start() {
+        this.molusco.fase = 1;
     }
 }
