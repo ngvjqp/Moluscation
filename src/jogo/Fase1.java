@@ -75,10 +75,11 @@ public class Fase1 implements GameStateController {
 
     }
 
-    public void unload() {
-    }
-
     public void step(long timeElapsed) {
+        this.molusco.step(timeElapsed);
+        this.cenario.step(timeElapsed);
+        this.vida.step(timeElapsed);
+
         if (this.molusco.vida <= 0) {
             this.molusco.imgMorre();
             int controle = 1;
@@ -89,7 +90,7 @@ public class Fase1 implements GameStateController {
 
         }
 
-        this.molusco.step(timeElapsed);
+
 
         for (Bomba nitros : this.bombas) {
             if (this.molusco.temColisao(nitros)) {
@@ -106,7 +107,7 @@ public class Fase1 implements GameStateController {
                     this.molusco.setX(100);
                     this.molusco.setY(100);
                     this.cenario.setInicio();
-                    this.molusco.alteraImagem(this.molusco.imgNormal);
+                    //   this.molusco.alteraImagem(this.molusco.imgNormal);
                     this.first = true;
                 }
                 if (this.first == true) {
@@ -128,12 +129,8 @@ public class Fase1 implements GameStateController {
 
         if (this.cenario.temColisaoComTile(molusco, 3)) {
             this.molusco.imgMorre();
-
-
-
             this.controlePerdeVida = this.controlePerdeVida - 5;
             this.molusco.setY(this.molusco.getY() + controlePerdeVida);
-
             this.contGO++;
             if (contGO >= 17) {
                 this.contGO = 1;
@@ -141,7 +138,7 @@ public class Fase1 implements GameStateController {
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
+//                this.molusco.alteraImagem(this.molusco.imgNormal);
                 this.first = true;
             }
             if (this.first == true) {
@@ -150,17 +147,12 @@ public class Fase1 implements GameStateController {
                 this.controlePerdeVida = 1;
             }
         }
-
-
+        
         if (this.molusco.temColisao(vida)) {
             this.molusco.ganhaVida();
             this.vida.setY(500000000);
             this.hud.vidaCont++;
-
-
         }
-        this.cenario.step(timeElapsed);
-        this.vida.step(timeElapsed);
 
         contadorTempo += timeElapsed;
         if (contadorTempo > 3000000) { //tres segundos
@@ -173,10 +165,9 @@ public class Fase1 implements GameStateController {
             this.bombas.add(novo);
             this.cenario.adicionaObjeto(novo);
             contadorTempo -= 3000;
-
         }
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
-
+        
         if (keyboard.keyDown(Keys.DIREITA)) {
             System.out.println(this.molusco.xCam);
             this.moveCenarioTras(20);
@@ -192,7 +183,6 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-    
 
     public void moveCenarioTras(int pixels) {
         this.cenario.moveCenarioTras(pixels);
@@ -221,5 +211,10 @@ public class Fase1 implements GameStateController {
 
     public void start() {
         this.molusco.fase = 1;
+    }
+
+    @Override
+    public void unload() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

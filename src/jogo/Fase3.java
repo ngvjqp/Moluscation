@@ -60,7 +60,7 @@ public class Fase3 implements GameStateController {
 
         Bomba novo = null;
         try {
-            novo = new Bomba(800, 400);
+            novo = new Bomba(800, 4000);
         } catch (Exception ex) {
             Logger.getLogger(Fase1.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,7 +108,6 @@ public class Fase3 implements GameStateController {
                     this.molusco.setX(100);
                     this.molusco.setY(100);
                     this.cenario.setInicio();
-                    this.molusco.alteraImagem(this.molusco.imgNormal);
                     this.first = true;
                 }
                 if (this.first == true) {
@@ -142,7 +141,6 @@ public class Fase3 implements GameStateController {
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
                 this.first = true;
             }
             if (this.first == true) {

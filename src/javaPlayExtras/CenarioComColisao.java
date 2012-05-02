@@ -43,12 +43,12 @@ public class CenarioComColisao {
     }
 
     public void draw(Graphics g) {
-         this.scene.setDrawStartPos(this.x, 0);
-        this.scene.draw(g);     
+        this.scene.setDrawStartPos(this.x, 0);
+        this.scene.draw(g);
         //this.drawDebug(g);
     }
 
-    public boolean temColisaoComTile(ObjetoComGravidade obj, int idTile){
+    public boolean temColisaoComTile(ObjetoComGravidade obj, int idTile) {
         ArrayList<TileInfo> tiles = this.scene.getTilesFromRect(obj.getPontoMin(), obj.getPontoMax());
         for (TileInfo tile : tiles) {
             if ((tile.id == idTile) && obj.temColisao(tile.getRetangle())) {
@@ -58,7 +58,7 @@ public class CenarioComColisao {
         return false;
     }
 
-    private void drawDebug(Graphics g){
+    private void drawDebug(Graphics g) {
         for (ObjetoComGravidade obj : this.objetos) {
             Point objMin = new Point(obj.getX(), obj.getY());
             Point objMax = new Point(obj.getX() + obj.getLargura() - 1, obj.getY() + obj.getAltura() - 1);
@@ -84,12 +84,12 @@ public class CenarioComColisao {
         ArrayList<TileInfo> tiles = this.scene.getTilesFromRect(obj.getPontoMin(), obj.getPontoMax());
         DirecaoColisao direcao = null;
 
-        for(TileInfo tile : tiles){
-            if ( (tile.id > 0) && obj.temColisao(tile.getRetangle())) {            
+        for (TileInfo tile : tiles) {
+            if ((tile.id > 0) && obj.temColisao(tile.getRetangle())) {
                 direcao = this.pegaDirecaoColisao(obj, tile);
-                this.realizaColisao(obj, tile, direcao);                
+                this.realizaColisao(obj, tile, direcao);
             }
-        }                
+        }
     }
 
     private DirecaoColisao pegaDirecaoColisao(ObjetoComGravidade obj, TileInfo tile) {
@@ -97,26 +97,25 @@ public class CenarioComColisao {
          * Para calcular  de ond evem a dire��o
          * verifica-se quais o ponto do Tile mais pr�ximo do ponto central do objeto.
          */
-
         //Considera inicialmente que a colis�o foi de cima para baixo
         DirecaoColisao direcao = DirecaoColisao.CIMA_PARA_BAIXO;
         double distancia = this.calculaDistancia(tile.getTopPoint(), obj.getPontoCentral());
         double distanciaTemp;
 
         distanciaTemp = this.calculaDistancia(tile.getBottomPoint(), obj.getPontoCentral());
-        if(distanciaTemp < distancia ){
+        if (distanciaTemp < distancia) {
             direcao = DirecaoColisao.BAIXO_PARA_CIMA;
             distancia = distanciaTemp;
         }
 
         distanciaTemp = this.calculaDistancia(tile.getLeftPoint(), obj.getPontoCentral());
-        if(distanciaTemp < distancia ){
+        if (distanciaTemp < distancia) {
             direcao = DirecaoColisao.ESQUERDA_PARA_DIREITA;
             distancia = distanciaTemp;
         }
 
-        distanciaTemp = this.calculaDistancia( tile.getRightPoint(), obj.getPontoCentral() );
-        if(distanciaTemp < distancia ){
+        distanciaTemp = this.calculaDistancia(tile.getRightPoint(), obj.getPontoCentral());
+        if (distanciaTemp < distancia) {
             direcao = DirecaoColisao.DIREITA_PARA_ESQUERDA;
             distancia = distanciaTemp;
         }
@@ -131,7 +130,7 @@ public class CenarioComColisao {
         return direcao;
     }
 
-    private double calculaDistancia(Point ponto1, Point ponto2){
+    private double calculaDistancia(Point ponto1, Point ponto2) {
         int dx = ponto1.x - ponto2.x;
         int dy = ponto1.y - ponto2.y;
         double distance = Math.sqrt(dx * dx + dy * dy);
@@ -142,7 +141,7 @@ public class CenarioComColisao {
         switch (direcao) {
             case CIMA_PARA_BAIXO:
                 obj.setY(tile.min.y - obj.getAltura());
-                if ( obj.estaDescendo() ) {
+                if (obj.estaDescendo()) {
                     obj.chegouChao();
                 }
                 break;
@@ -150,7 +149,7 @@ public class CenarioComColisao {
                 obj.setY(tile.max.y);
                 obj.paraSubida();
                 break;
-            case ESQUERDA_PARA_DIREITA:                
+            case ESQUERDA_PARA_DIREITA:
                 obj.setX(tile.min.x - obj.getLargura());
                 break;
             case DIREITA_PARA_ESQUERDA:
@@ -159,10 +158,11 @@ public class CenarioComColisao {
         }
     }
 
-      public void moveCenarioTras(int distance){                
+    public void moveCenarioTras(int distance) {
         this.x -= distance;
-    }    
-public void setInicio(){
-this.x = 1;
-}
+    }
+
+    public void setInicio() {
+        this.x = 1;
+    }
 }

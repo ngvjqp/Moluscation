@@ -106,7 +106,6 @@ this.molusco.setX(100);
                     this.molusco.setX(100);
                     this.molusco.setY(100);
                     this.cenario.setInicio();
-                    this.molusco.alteraImagem(this.molusco.imgNormal);
                     this.first = true;
                 }
                 if (this.first == true) {
@@ -140,7 +139,6 @@ this.molusco.setX(100);
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
                 this.first = true;
             }
             if (this.first == true) {

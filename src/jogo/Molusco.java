@@ -3,8 +3,12 @@ package jogo;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javaPlay.GameEngine;
 import javaPlay.Keyboard;
+import javaPlay.Sprite;
+import javaPlayExtras.AudioPlayer;
 import javaPlayExtras.Imagem;
 import javaPlayExtras.Keys;
 import javaPlayExtras.ObjetoComGravidade;
@@ -17,7 +21,7 @@ public class Molusco extends ObjetoComGravidade {
     protected int velocidade = 5;
     protected EstadoPersonagem estado;
     protected int virado;
-    protected Imagem imgNormal;
+    protected Sprite imgNormal;
     protected Imagem imgTras;
     protected Imagem imgFrente;
     protected Imagem imgPulo;
@@ -25,15 +29,15 @@ public class Molusco extends ObjetoComGravidade {
     protected Imagem imgMorre;
     protected int fase;
     protected int xCam;
+    protected int timerAnim;
 
     public Molusco() {
 
-
         try {
-            this.imgNormal = new Imagem("resources/moluscoAndando.gif");
-            this.imgMorre = new Imagem("resources/moluscoMorre.gif");
-            this.imgFrente = new Imagem("resources/moluscoAndando.gif");
-            this.imgPulo = new Imagem("resources/moluscoPula.gif");
+            this.imgNormal = new Sprite("resources/panda.png", 3, 85, 154);
+            this.imgMorre = new Imagem("resources/panda.png");
+            this.imgFrente = new Imagem("resources/panda.png");
+            this.imgPulo = new Imagem("resources/panda.png");
 
 
 
@@ -42,13 +46,13 @@ public class Molusco extends ObjetoComGravidade {
             JOptionPane.showMessageDialog(null, "Exceção: " + ex.getMessage());
             System.exit(0);
         }
-        this.imgAtual = imgFrente;
+        // this.imgAtual = imgNormal;
 
         //POSIÇÃO INICIAL
         this.x = 400;
 
-        this.setAltura(this.imgAtual.pegaAltura());
-        this.setLargura(this.imgAtual.pegaLargura());
+        this.setAltura(154);
+        this.setLargura(85);
 
 
 
@@ -56,63 +60,83 @@ public class Molusco extends ObjetoComGravidade {
 
     public void step(long timeElapsed) {
         super.step(timeElapsed);
+
+
+
+
         this.xCam = this.x;
         Keyboard keyboard = GameEngine.getInstance().getKeyboard();
-
-
         if (keyboard.keyDown(Keys.ESPACO)) {
             if (this.fase >= 3) {
                 this.superPulo();
             }
         }
         if (keyboard.keyDown(Keys.ESQUERDA)) {
-            this.virado = 0;
-
+            try {
+                this.imgNormal = new Sprite("resources/pandaIn.png", 3, 85, 154);
+            } catch (Exception ex) {
+                Logger.getLogger(Molusco.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.timerAnim++;
         } else if (keyboard.keyDown(Keys.DIREITA)) {
+            try {
+                this.imgNormal = new Sprite("resources/panda.png", 3, 85, 154);
+            } catch (Exception ex) {
+                Logger.getLogger(Molusco.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.virado = 1;
-
-
+            this.timerAnim++;
         } else if (keyboard.keyDown(Keys.CIMA)) {
             this.pulo();
+            AudioPlayer.play("resources/sounds/pulo.wav");
         } else if (keyboard.keyDown(Keys.BAIXO)) {
             this.y += this.velocidade;
-        } else {
-            this.normal();
         }
 
+        if (this.timerAnim < 10) {
+            this.imgNormal.setCurrAnimFrame(1);
+        }
+        if (this.timerAnim < 20) {
+            this.imgNormal.setCurrAnimFrame(2);
+        } else {
+            this.imgNormal.setCurrAnimFrame(3);
+            this.timerAnim = 1;
+        }
 
     }
-public void setX(int shiz){
-this.x = shiz;
-}
+
+    public void setX(int shiz) {
+        this.x = shiz;
+    }
+
     public void draw(Graphics g) {
         g.setColor(Color.white);
         // g.drawString(this.vida + "", this.x + 20, this.y - 10);
 
 
-        if (this.virado == 1) {
-            this.imgAtual.draw(g, this.x, this.y);
-        } else {
-            this.imgAtual.drawFlipped(g, this.x, this.y);
-        }
+        //  if (this.virado == 1) {
+        this.imgNormal.draw(g, this.x, this.y);
+        //  } else {
+        //     this.imgNormal.drawFlipped(g, this.x, this.y);
+        //  }
 
     }
 
-    public void alteraImagem(Imagem novaImagem) {
-        this.imgAtual = novaImagem;
-        this.setAltura(this.imgAtual.pegaAltura());
-        this.setLargura(this.imgAtual.pegaLargura());
+    /* public void alteraImagem(Imagem novaImagem) {
+    this.imgAtual = novaImagem;
+    this.setAltura(this.imgAtual.pegaAltura());
+    this.setLargura(this.imgAtual.pegaLargura());
     }
-
+     */
     public void imgMorre() {
-        this.imgAtual = this.imgMorre;
+        /*   this.imgAtual = this.imgMorre;
         this.setAltura(this.imgAtual.pegaAltura());
-        this.setLargura(this.imgAtual.pegaLargura());
+        this.setLargura(this.imgAtual.pegaLargura());*/
     }
 
     private void superPulo() {
         if (this.estaNoChao) {
-          //  this.alteraImagem(this.imgPulo);
+            //  this.alteraImagem(this.imgPulo);
 
             this.impulso(50);
         }
@@ -120,13 +144,13 @@ this.x = shiz;
 
     private void pulo() {
         if (this.estaNoChao) {
-         //   this.alteraImagem(this.imgPulo);
+            //   this.alteraImagem(this.imgPulo);
             this.impulso(30);
         }
     }
 
     public void frente() {
-        this.alteraImagem(this.imgFrente);
+//        this.alteraImagem(this.imgFrente);
         this.x += this.velocidade;
     }
 
@@ -134,15 +158,15 @@ this.x = shiz;
         this.x -= this.velocidade;
     }
 
-    private void normal() {
-        if (this.estaPulando()) {
-            this.alteraImagem(this.imgPulo);
-        } else {
-            this.estado = EstadoPersonagem.NORMAL;
-            //  this.alteraImagem( this.imgNormal );
-        }
+    /* private void normal() {
+    if (this.estaPulando()) {
+    this.alteraImagem(this.imgPulo);
+    } else {
+    this.estado = EstadoPersonagem.NORMAL;
+    //  this.alteraImagem( this.imgNormal );
     }
-
+    }
+     */
     public void perdeVida() {
         this.vida -= 1;
         this.vidaHUD--;
@@ -153,7 +177,7 @@ this.x = shiz;
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle(this.x, this.y, this.imgAtual.pegaLargura(), this.imgAtual.pegaAltura());
+        return new Rectangle(this.x, this.y, 85, 154);
     }
 
     public int vida() {

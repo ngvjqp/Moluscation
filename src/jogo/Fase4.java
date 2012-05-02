@@ -106,7 +106,7 @@ public class Fase4 implements GameStateController {
                     this.molusco.setX(100);
                     this.molusco.setY(100);
                     this.cenario.setInicio();
-                    this.molusco.alteraImagem(this.molusco.imgNormal);
+
                     this.first = true;
                 }
                 if (this.first == true) {
@@ -140,7 +140,7 @@ public class Fase4 implements GameStateController {
                 this.molusco.setX(100);
                 this.molusco.setY(100);
                 this.cenario.setInicio();
-                this.molusco.alteraImagem(this.molusco.imgNormal);
+
                 this.first = true;
             }
             if (this.first == true) {
